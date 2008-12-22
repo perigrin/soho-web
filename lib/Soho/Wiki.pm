@@ -43,7 +43,7 @@ sub _build_search {
     Wiki::Toolkit::Search::Plucene->new( path => '/tmp/kinosearch', );
 }
 
-use Wiki::Toolkit::Formatter::Markdown;
+use Wiki::Toolkit::Formatter::MultiMarkdown;
 
 has formatter => (
     isa        => 'Object',
@@ -52,7 +52,7 @@ has formatter => (
 );
 
 sub _build_formatter {
-    Wiki::Toolkit::Formatter::Markdown->new(),;
+    Wiki::Toolkit::Formatter::MultiMarkdown->new(),;
 }
 
 has wiki => (
