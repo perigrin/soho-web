@@ -1,0 +1,6 @@
+---
+name: Soho::Web
+Model::Wiki:
+  args:
+      store: root/main.db
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+<head>
+    <title>Soho Web: [% node.name %]</title>
+    <link rel="stylesheet" href="/static/style/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/static/style/print.css" type="text/css" media="print"><!--[if IE]><link rel="stylesheet" href="/static/style/ie.css" type="text/css" media="screen, projection"><![endif]-->
+    <link rel="stylesheet" href="/static/style/site.css" type="text/css" media="screen, projection" charset="utf-8">
+    
+</head>
+
+<body class="container">
+    <div class="banner span-29"><h1>Soho Web</h1></div>
+    <div class="navigation left span-14">
+                [% IF c.user %]
+                    <a href="[% c.user.url %]">[% c.user.display %]</a>
+                [% ELSE %]
+                    <a href="[% c.uri_for('/') %]">wiki</a>
+                [% END %]
+        &raquo; [% node.name %]
+    </div>
+    <div class="navigation right span-6">
+        [% IF c.user %]
+        <a href="[% c.uri_for('logout') %]">logout</a>
+        [% END %]
+    </div>
+
+    <br class="space" />
+
+
+    <div class="content span-26 last">
+        <form method="post" action="">
+            <textarea name="node.content" style="width: 85%;">[% node.content %]</textarea>
+            <div>
+                <input type="hidden" name="node.checksum" value="[% node.checksum %]"> 
+                <input type="submit" name='save' value="Save">
+            </div>
+        </form>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,14 @@
+body { 
+   background-color: black;
+   color: white;
+}
+a, a:hover { color: cornflowerblue; text-decoration: none;}
+a:visited { color: silver; }
+a:hover { text-decoration: underline;}
+
+.banner { margin: 0px;}
+h1, h2, h3, h4, h5, h6 { color: white; }
+div.navigation { font-size: 10pt;}
+.right { text-align: right;}
+.content { margin-top: 5ex; }
+.footer { }

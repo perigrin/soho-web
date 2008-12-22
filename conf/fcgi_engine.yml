@@ -1,0 +1,5 @@
+- name:       "soho-wiki"
+  scriptname: "script/soho-wiki_fastcgi.pl"
+  nproc:       3
+  pidfile:    "/tmp/soho-wiki.pid"
+  socket:     "/tmp/soho-wiki.socket"
