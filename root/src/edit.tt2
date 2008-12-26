@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title>Soho Web: [% node.name %]</title>
+    <title>[% c.config.name %]: [% node.name %]</title>
     <link rel="stylesheet" href="/static/style/screen.css" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="/static/style/print.css" type="text/css" media="print"><!--[if IE]><link rel="stylesheet" href="/static/style/ie.css" type="text/css" media="screen, projection"><![endif]-->
     <link rel="stylesheet" href="/static/style/site.css" type="text/css" media="screen, projection" charset="utf-8">
@@ -10,7 +10,7 @@
 </head>
 
 <body class="container">
-    <div class="banner span-29"><h1>Soho Web</h1></div>
+    <div class="banner span-29"><h1>[% c.config.name %]</h1></div>
     <div class="navigation left span-14">
                 [% IF c.user %]
                     <a href="[% c.user.url %]">[% c.user.display %]</a>
