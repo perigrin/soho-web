@@ -37,7 +37,7 @@ our $VERSION = '0.01';
 # local deployment.
 
 __PACKAGE__->config(
-    name          => 'Soho::Web',
+    name          => 'Enlightened Perl Wiki',
     default_node  => 'home',
     'Model::Wiki' => { args => { store => 'root/main.db', }, },
     authentication => {

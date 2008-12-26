@@ -1,5 +1,5 @@
 ---
-name: Soho::Web
+name: EPO-Wiki
 Model::Wiki:
   args:
       store: root/main.db
