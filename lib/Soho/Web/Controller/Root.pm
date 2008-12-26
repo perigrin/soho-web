@@ -48,6 +48,10 @@ sub edit_GET {
     my %node = $c->model('Wiki')->retrieve_node($name);
     $node{name} = $name;
 
+    if ( $c->stash->{preview_content} ) {
+        $node{content}         = $c->stash->{preview_content};
+        $node{preview_content} = $c->model('Wiki')->format( $node{content} );
+    }
     $c->stash->{template} = 'edit.tt2';
     $c->stash->{node}     = \%node;
 }
@@ -58,7 +62,18 @@ sub edit_POST {
     my $content = $c->request->param("node.content");
     my $cksum   = $c->request->param("node.checksum");
 
-    warn "$name $content $cksum";
+    if ( $c->request->param('save') ) {
+        $self->save_page( $c, $name, $content, $cksum );
+    }
+    elsif ( $c->request->param('preview') ) {
+        $c->flash->{preview_content} = $content;
+        $c->response->redirect("/edit/$name");
+    }
+    else { $c->response->redirect("/$name"); }
+}
+
+sub save_page {
+    my ( $self, $c, $name, $content, $cksum ) = @_;
     my $written =
       eval { $c->model('Wiki')->write_node( $name, $content, $cksum ) };
     if ($written) {
@@ -68,9 +83,7 @@ sub edit_POST {
         warn "write failed for $name: $written $! $@";
         $c->response->redirect("/$name");
     }
-
 }
-
 
 sub login : Path('/login') {
     my ( $self, $c ) = @_;

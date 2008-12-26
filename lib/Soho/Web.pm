@@ -17,11 +17,10 @@ use Catalyst qw{
   Static::Simple
 
   Authentication
-  
+
   Session
   Session::Store::FastMmap
   Session::State::Cookie
-  
 
 };
 
@@ -40,6 +39,7 @@ __PACKAGE__->config(
     name          => 'Enlightened Perl Wiki',
     default_node  => 'home',
     'Model::Wiki' => { args => { store => 'root/main.db', }, },
+    session        => { flash_to_stash => 1 },
     authentication => {
         default_realm => 'openid',
         realms        => {
