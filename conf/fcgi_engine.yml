@@ -1,5 +1,5 @@
 - name:       "perl-is.superawesomecool.org"
-  scriptname: "script/perl-is.superawesomecool.org_fastcgi.pl"
+  scriptname: "script/soho-web_fastcgi.pl"
   nproc:       3
   pidfile:    "/tmp/perl-is.superawesomecool.org.pid"
   socket:     "/tmp/perl-is.superawesomecool.org.socket"
