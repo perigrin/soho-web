@@ -1,5 +1,10 @@
 #!/usr/bin/env perl -w
 
+BEGIN {
+    $ENV{CATALYST_ENGINE} ||= 'FastCGI';
+    $ENV{CATALYST_CONFIG} = 'conf/soho-web.yml';
+}
+
 use strict;
 use warnings;
 use Getopt::Long;
