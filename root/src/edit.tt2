@@ -26,14 +26,19 @@
     </div>
 
     <br class="space" />
-
-
+    [% IF node.preview_content %]
+    <div class="preview content span-26 last">
+        [% node.preview_content %]
+    </div>
+    [% END %]
+    <br class="space" />
     <div class="content span-26 last">
         <form method="post" action="">
             <textarea name="node.content" style="width: 85%;">[% node.content %]</textarea>
             <div>
                 <input type="hidden" name="node.checksum" value="[% node.checksum %]"> 
-                <input type="submit" name='save' value="Save">
+                <input type="submit" name='save' value="Save" />
+                <input type="submit" name='preview' value="Preview" />
             </div>
         </form>
     </div>
