@@ -1,5 +1,5 @@
 ---
-name: EPO-Wiki
+name: Enlightened Perl Wiki
 Model::Wiki:
   args:
       store: root/main.db
