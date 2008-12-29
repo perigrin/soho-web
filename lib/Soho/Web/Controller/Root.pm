@@ -39,6 +39,11 @@ sub default : Private {
     $c->stash->{node}     = \%node;
 }
 
+sub access_denied : Private {
+    my ( $self, $c, $action ) = @_;
+    $c->response->redirect('/login');
+}
+
 sub edit : Path('/edit') ActionClass('REST') {
 }
 

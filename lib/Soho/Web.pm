@@ -18,6 +18,8 @@ use Catalyst qw{
 
   Authentication
 
+  Authorization::ACL
+
   Session
   Session::Store::FastMmap
   Session::State::Cookie
@@ -55,11 +57,12 @@ __PACKAGE__->config(
 
         },
     },
-
 );
-
 # Start the application
 __PACKAGE__->setup;
+
+__PACKAGE__->deny_access_unless( "/edit", sub { $_[0]->user });
+
 
 =head1 NAME
 
