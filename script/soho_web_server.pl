@@ -1,10 +1,11 @@
-#!/usr/bin/env perl -w
+#!/usr/local/perl-5.10/bin/perl -w
 
-BEGIN { 
+BEGIN {
+    $ENV{CATALYST_CONFIG} = 'conf/soho-web.yml';
     $ENV{CATALYST_ENGINE} ||= 'HTTP';
-    $ENV{CATALYST_SCRIPT_GEN} = 30;
+    $ENV{CATALYST_SCRIPT_GEN} = 31;
     require Catalyst::Engine::HTTP;
-}  
+}
 
 use strict;
 use warnings;
@@ -21,8 +22,10 @@ my $port              = $ENV{SOHO_WEB_PORT} || $ENV{CATALYST_PORT} || 3000;
 my $keepalive         = 0;
 my $restart           = $ENV{SOHO_WEB_RELOAD} || $ENV{CATALYST_RELOAD} || 0;
 my $restart_delay     = 1;
-my $restart_regex     = '\.yml$|\.yaml$|\.pm$';
+my $restart_regex     = '(?:/|^)(?!\.#).+(?:\.yml$|\.yaml$|\.conf|\.pm)$';
 my $restart_directory = undef;
+my $follow_symlinks   = 0;
+my $config_file      = undef;
 
 my @argv = @ARGV;
 
@@ -36,7 +39,9 @@ GetOptions(
     'restart|r'           => \$restart,
     'restartdelay|rd=s'   => \$restart_delay,
     'restartregex|rr=s'   => \$restart_regex,
-    'restartdirectory=s'  => \$restart_directory,
+    'restartdirectory=s@' => \$restart_directory,
+    'followsymlinks'      => \$follow_symlinks,
+    'config_file|c=s'       => \$config_file,
 );
 
 pod2usage(1) if $help;
@@ -44,23 +49,31 @@ pod2usage(1) if $help;
 if ( $restart && $ENV{CATALYST_ENGINE} eq 'HTTP' ) {
     $ENV{CATALYST_ENGINE} = 'HTTP::Restarter';
 }
-if ( $debug ) {
+if ($debug) {
     $ENV{CATALYST_DEBUG} = 1;
+}
+
+if ($config_file) {
+    $ENV{CATALYST_CONFIG} = $config_file;
 }
 
 # This is require instead of use so that the above environment
 # variables can be set at runtime.
 require Soho::Web;
 
-Soho::Web->run( $port, $host, {
-    argv              => \@argv,
-    'fork'            => $fork,
-    keepalive         => $keepalive,
-    restart           => $restart,
-    restart_delay     => $restart_delay,
-    restart_regex     => qr/$restart_regex/,
-    restart_directory => $restart_directory,
-} );
+Soho::Web->run(
+    $port, $host,
+    {
+        argv              => \@argv,
+        'fork'            => $fork,
+        keepalive         => $keepalive,
+        restart           => $restart,
+        restart_delay     => $restart_delay,
+        restart_regex     => qr/$restart_regex/,
+        restart_directory => $restart_directory,
+        follow_symlinks   => $follow_symlinks,
+    }
+);
 
 1;
 
@@ -85,11 +98,12 @@ soho_web_server.pl [options]
    -rd -restartdelay  delay between file checks
    -rr -restartregex  regex match files that trigger
                       a restart when modified
-                      (defaults to '\.yml$|\.yaml$|\.pm$')
+                      (defaults to '\.yml$|\.yaml$|\.conf|\.pm$')
    -restartdirectory  the directory to search for
-                      modified files
-                      (defaults to '../')
-
+                      modified files, can be set mulitple times
+                      (defaults to '[SCRIPT_DIR]/..')
+   -follow_symlinks   follow symlinks in search directories
+                      (defaults to false. this is a no-op on Win32)
  See also:
    perldoc Catalyst::Manual
    perldoc Catalyst::Manual::Intro
@@ -98,10 +112,9 @@ soho_web_server.pl [options]
 
 Run a Catalyst Testserver for this application.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
-Sebastian Riedel, C<sri@oook.de>
-Maintained by the Catalyst Core Team.
+Catalyst Contributors, see Catalyst.pm
 
 =head1 COPYRIGHT
 

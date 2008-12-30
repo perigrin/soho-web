@@ -1,4 +1,4 @@
-#!/usr/bin/env perl -w
+#!/usr/local/perl-5.10/bin/perl -w
 
 use strict;
 use warnings;
@@ -62,10 +62,9 @@ Existing component files are not overwritten.  If any of the component files
 to be created already exist the file will be written with a '.new' suffix.
 This behavior can be suppressed with the C<-force> option.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
-Sebastian Riedel, C<sri@oook.de>
-Maintained by the Catalyst Core Team.
+Catalyst Contributors, see Catalyst.pm
 
 =head1 COPYRIGHT
 

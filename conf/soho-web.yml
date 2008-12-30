@@ -1,5 +1,5 @@
 ---
-name: EPO-Wiki
+name: '[Site Name]'
 Model::Wiki:
   args:
       store: root/main.db

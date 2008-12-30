@@ -12,3 +12,5 @@ div.navigation { font-size: 10pt;}
 .right { text-align: right;}
 .content { margin-top: 5ex; }
 .footer { }
+
+.debug { border: 1px solid red;}

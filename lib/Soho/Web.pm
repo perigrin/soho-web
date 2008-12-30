@@ -38,7 +38,7 @@ our $VERSION = '0.01';
 # local deployment.
 
 __PACKAGE__->config(
-    name          => 'Enlightened Perl Wiki',
+    name          => 'Soho-Web',
     default_node  => 'home',
     'Model::Wiki' => { args => { store => 'root/main.db', }, },
     session        => { flash_to_stash => 1 },

@@ -1,8 +1,8 @@
-#!/usr/bin/env perl -w
+#!/usr/local/perl-5.10/bin/perl -w
 
 BEGIN {
-    $ENV{CATALYST_ENGINE} ||= 'FastCGI';
     $ENV{CATALYST_CONFIG} = 'conf/soho-web.yml';
+    $ENV{CATALYST_ENGINE} ||= 'FastCGI';
 }
 
 use strict;
@@ -14,19 +14,24 @@ use lib "$FindBin::Bin/../lib";
 use Soho::Web;
 
 my $help = 0;
-my ( $listen, $nproc, $pidfile, $manager, $detach, $keep_stderr );
+my ( $listen, $nproc, $pidfile, $manager, $detach, $keep_stderr, $config_file );
 
 GetOptions(
-    'help|?'      => \$help,
-    'listen|l=s'  => \$listen,
-    'nproc|n=i'   => \$nproc,
-    'pidfile|p=s' => \$pidfile,
-    'manager|M=s' => \$manager,
-    'daemon|d'    => \$detach,
-    'keeperr|e'   => \$keep_stderr,
+    'help|?'        => \$help,
+    'listen|l=s'    => \$listen,
+    'nproc|n=i'     => \$nproc,
+    'pidfile|p=s'   => \$pidfile,
+    'manager|M=s'   => \$manager,
+    'daemon|d'      => \$detach,
+    'keeperr|e'     => \$keep_stderr,
+    'config_file|c=s' => \$config_file,
 );
 
 pod2usage(1) if $help;
+
+if ($config_file) {
+    $ENV{CATALYST_CONFIG} = $config_file;
+}
 
 Soho::Web->run(
     $listen,
@@ -71,10 +76,9 @@ soho_web_fastcgi.pl [options]
 
 Run a Catalyst application as fastcgi.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
-Sebastian Riedel, C<sri@oook.de>
-Maintained by the Catalyst Core Team.
+Catalyst Contributors, see Catalyst.pm
 
 =head1 COPYRIGHT
 
