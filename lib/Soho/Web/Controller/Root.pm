@@ -27,6 +27,12 @@ Soho::Web::Controller::Root - Root Controller for Soho::Web
 =cut
 
 sub default : Private {
+}
+
+sub node : Path('/') ActionClass('REST') {
+}
+
+sub node_GET {
     my ( $self, $c, $name ) = @_;
     $name ||= $c->config->{default_node};
     my %node = $c->model('Wiki')->retrieve_node($name);
