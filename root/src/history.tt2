@@ -12,7 +12,20 @@
 <body class="container">
     <div class="banner span-29"><h1>[% c.config.name %]</h1></div>
     <hr class="span-29 space" />    
-    <div class="content span-29">[% node.content %]</div>
+    <div class="content span-29">
+        <table>
+            <tr>
+                <th>Date modified</th>
+                <th>User</th>
+            </tr>
+            [% FOREACH edit = revisions %]
+            <tr>
+                <td> [% edit.date %] </td>
+                <td> [% edit.user %] </td>
+            </tr>
+            [% END %]
+        </table>
+    </div>
     <hr class="span-29 space" />    
     <div class="footer span-29 container last">
         <div class="navigation left span-12" >
@@ -23,19 +36,8 @@
                     [% END %]
             &raquo; [% node.name %]
         </div>
-        <div class="navigation right ">
-            [% IF c.user %]
-            <a href="[% c.uri_for('edit', node.name) %]">edit</a>
-            <a href="[% c.uri_for('logout') %]">logout</a>
-            [% ELSE %]
-            <a href="[% c.uri_for('login') %]">login</a>
-            [% END %]
-            <a href="[% c.uri_for('node:history', node.name) %]">history</a>
-        </div>
-        <div class="span-29">
-        [% node.last_modified %] [% IF node.last.user %]( [% node.last.user %] )[% END %]
-        </div>
     </div>
     
 </body>
 </html>
+

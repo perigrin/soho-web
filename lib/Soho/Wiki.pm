@@ -64,6 +64,7 @@ has wiki => (
           retrieve_node
           format
           write_node
+          list_node_all_versions
           )
     ]
 );

@@ -35,6 +35,10 @@ sub default : Private {
     $node{content}     = $c->model('Wiki')->format( $node{content} );
     $node{name}        = $name;
 
+    # Wiki::Toolkit wraps all metadata in arrayrefs even if the data is just one
+    # element. unwrap it here.
+    $node{'last.user'}   = $node{metadata}{user}[0];
+
     $c->stash->{template} = 'node.tt2';
     $c->stash->{node}     = \%node;
 }
@@ -79,8 +83,12 @@ sub edit_POST {
 
 sub save_page {
     my ( $self, $c, $name, $content, $cksum ) = @_;
+    my $url = $c->user->url;
+    # NOTE: even though the user is specified as a raw scalar here, it's
+    # silently wrapped in an arrayref by Wiki::Toolkit, so be sure to unwrap
+    # appropriately when viewing.
     my $written =
-      eval { $c->model('Wiki')->write_node( $name, $content, $cksum ) };
+      eval { $c->model('Wiki')->write_node( $name, $content, $cksum, { user => $c->user->url} ) };
     if ($written) {
         $c->response->redirect("/$name");
     }
@@ -107,6 +115,25 @@ sub logout_GET {
     my ( $self, $c ) = @_;
     $c->logout;
     $c->response->redirect('/');
+}
+
+sub history : Path('/node:history') {
+    my ($self, $c, $name) = @_;
+    $name ||= $c->config->{default_node};
+    my @versions = $c->model('Wiki')->list_node_all_versions(
+        name => $name,
+        with_content => 0,
+        with_metadata => 1,
+    );
+
+    my $revisions = [ map { 
+        {
+            date => $_->{last_modified},
+            user => $_->{metadata}{user} } 
+        }
+        @versions ];
+    $c->stash->{template}    = 'history.tt2';
+    $c->stash->{revisions}   = $revisions;
 }
 
 =head2 end
