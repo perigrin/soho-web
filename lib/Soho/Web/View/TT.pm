@@ -1,7 +1,7 @@
-package Soho::Web::View::TT::Alloy;
+package Soho::Web::View::TT;
 
 use strict;
-use base 'Catalyst::View::TT::Alloy';
+use base 'Catalyst::View::TT';
 
 __PACKAGE__->config(
     {
